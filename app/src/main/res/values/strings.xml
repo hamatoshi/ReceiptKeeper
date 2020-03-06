@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">Receipt Keeper</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="nav_title_monthly">Monthly</string>
+    <string name="nav_title_yearly">Yearly</string>
+    <string name="nav_title_statistics">Statistics</string>
+    <string name="nav_title_setting">Setting</string>
+    <string name="nav_title_search">Search</string>
 </resources>

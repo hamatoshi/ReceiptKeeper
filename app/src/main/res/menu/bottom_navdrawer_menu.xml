@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="none">
+        <item
+            android:id="@+id/nav_monthly"
+            android:title="@string/nav_title_monthly" />
+        <item
+            android:id="@+id/nav_yearly"
+            android:title="@string/nav_title_yearly" />
+    </group>
+    <item
+        android:id="@+id/nav_statistics"
+        android:title="@string/nav_title_statistics" />
+    <item
+        android:id="@+id/nav_setting"
+        android:title="@string/nav_title_setting" />
+</menu>
