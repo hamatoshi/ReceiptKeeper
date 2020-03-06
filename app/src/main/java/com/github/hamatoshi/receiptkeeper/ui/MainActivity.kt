@@ -1,7 +1,8 @@
-package com.github.hamatoshi.receiptkeeper
+package com.github.hamatoshi.receiptkeeper.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.github.hamatoshi.receiptkeeper.R
 
 class MainActivity : AppCompatActivity() {
 
