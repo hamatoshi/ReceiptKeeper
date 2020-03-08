@@ -3,6 +3,8 @@
     <string name="nav_title_monthly">Monthly</string>
     <string name="nav_title_yearly">Yearly</string>
     <string name="nav_title_statistics">Statistics</string>
-    <string name="nav_title_setting">Setting</string>
+    <string name="nav_title_setting">Settings</string>
     <string name="nav_title_search">Search</string>
+    <string name="nav_title_daily">Daily</string>
+    <string name="nav_title_help">Help and feedback</string>
 </resources>

@@ -15,14 +15,17 @@ class BottomNavigationDrawerFragment : BottomSheetDialogFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val binding = FragmentBottomSheetBinding.inflate(layoutInflater, container, false)
+        val binding =
+            FragmentBottomSheetBinding.inflate(layoutInflater, container, false)
 
         binding.bottomSheet.setNavigationItemSelectedListener { item ->
             when (item.itemId) {
+                R.id.nav_daily -> Toast.makeText(context, "Daily", Toast.LENGTH_SHORT).show()
                 R.id.nav_monthly -> Toast.makeText(context, "Monthly", Toast.LENGTH_SHORT).show()
                 R.id.nav_yearly -> Toast.makeText(context, "Yearly", Toast.LENGTH_SHORT).show()
                 R.id.nav_statistics -> Toast.makeText(context, "Statistics", Toast.LENGTH_SHORT).show()
-                R.id.nav_setting -> Toast.makeText(context, "Setting", Toast.LENGTH_SHORT).show()
+                R.id.nav_settings -> Toast.makeText(context, "Setting", Toast.LENGTH_SHORT).show()
+                R.id.nav_help -> Toast.makeText(context, "Help and feedback", Toast.LENGTH_SHORT).show()
             }
             true
         }

@@ -1,17 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <group android:checkableBehavior="none">
+
+    <group android:id="@+id/group_listing">
+        <item
+            android:id="@+id/nav_daily"
+            android:icon="@drawable/ic_view_day_black_24dp"
+            android:title="@string/nav_title_daily" />
         <item
             android:id="@+id/nav_monthly"
+            android:icon="@drawable/ic_view_list_black_24dp"
             android:title="@string/nav_title_monthly" />
         <item
             android:id="@+id/nav_yearly"
+            android:icon="@drawable/ic_view_list_black_24dp"
             android:title="@string/nav_title_yearly" />
     </group>
-    <item
-        android:id="@+id/nav_statistics"
-        android:title="@string/nav_title_statistics" />
-    <item
-        android:id="@+id/nav_setting"
-        android:title="@string/nav_title_setting" />
+
+    <group android:id="@+id/group_stats">
+        <item
+            android:id="@+id/nav_statistics"
+            android:icon="@drawable/ic_assessment_black_24dp"
+            android:title="@string/nav_title_statistics" />
+    </group>
+
+    <group android:id="@+id/group_others">
+        <item
+            android:id="@+id/nav_settings"
+            android:icon="@drawable/ic_settings_black_24dp"
+            android:title="@string/nav_title_setting" />
+        <item
+            android:id="@+id/nav_help"
+            android:icon="@drawable/ic_help_outline_black_24dp"
+            android:title="@string/nav_title_help" />
+    </group>
+
 </menu>
