@@ -9,6 +9,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.SimpleItemAnimator
 import com.github.hamatoshi.receiptkeeper.databinding.FragmentHomeBinding
 
 class HomeFragment : Fragment() {
@@ -20,19 +21,23 @@ class HomeFragment : Fragment() {
         val binding =
             FragmentHomeBinding.inflate(layoutInflater, container, false)
         val viewModelFactory = HomeViewModel.Factory()
-        val viewModel = ViewModelProvider(this, viewModelFactory).get(HomeViewModel::class.java)
+        val homeViewModel = ViewModelProvider(this, viewModelFactory).get(HomeViewModel::class.java)
 
         val adapter = ReceiptAdapter()
         val layoutManager = LinearLayoutManager(activity)
         val dividerItemDecoration = DividerItemDecoration(binding.listReceipt.context, layoutManager.orientation)
 
-        binding.listReceipt.adapter = adapter
-        binding.listReceipt.layoutManager = layoutManager
-        binding.listReceipt.addItemDecoration(dividerItemDecoration)
-        binding.lifecycleOwner = this
-        binding.viewModel = viewModel
+        (binding.listReceipt.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
 
-        viewModel.receipts.observe(viewLifecycleOwner, Observer {
+        binding.run {
+            listReceipt.adapter = adapter
+            listReceipt.layoutManager = layoutManager
+            viewModel = homeViewModel
+            listReceipt.addItemDecoration(dividerItemDecoration)
+        }
+        binding.lifecycleOwner = this
+
+        homeViewModel.receipts.observe(viewLifecycleOwner, Observer {
             it?.let {
                 adapter.submitList(it)
             }

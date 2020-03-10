@@ -15,6 +15,10 @@ class ReceiptAdapter(): ListAdapter<Receipt, RecyclerView.ViewHolder>(ReceiptDif
         if (holder is ReceiptViewHolder) {
             val item = getItem(position)
             holder.bind(item)
+            holder.itemView.setOnClickListener {
+                item.isExpanded = !(item.isExpanded)
+                notifyItemChanged(position)
+            }
         }
     }
 }

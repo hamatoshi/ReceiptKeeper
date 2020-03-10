@@ -29,6 +29,7 @@ data class Receipt(
 
 ) {
     var contents: MutableList<ReceiptContent> = mutableListOf()
+    var isExpanded = false
 }
 
 object ReceiptUtil {
