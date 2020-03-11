@@ -1,16 +1,15 @@
 package com.github.hamatoshi.receiptkeeper.data
 
-import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.PrimaryKey
+import androidx.room.*
 
-enum class TaxType {
-    NO_TAX,
-    TAX_EXCLUDED,
-    TAX_INCLUDED
+enum class TaxType(val value: Int) {
+    NO_TAX(0),
+    TAX_EXCLUDED(1),
+    TAX_INCLUDED(2)
 }
 
-@Entity(tableName = "receipt_content_table")
+@Entity(tableName = "table_receipt_contents")
+@TypeConverters(TaxTypeConverter::class)
 data class ReceiptContent(
     @PrimaryKey(autoGenerate = true)
     val uid: Long = 0L,
@@ -36,7 +35,9 @@ data class ReceiptContent(
     @ColumnInfo(name = "discount")
     var discount: Int = 0
 ) {
+    @Ignore
     var price = netPrice - discount
+    @Ignore
     var taxPrice = when (taxType) {
         TaxType.NO_TAX -> 0
         TaxType.TAX_EXCLUDED -> (price * tax) / 100
@@ -45,16 +46,28 @@ data class ReceiptContent(
             else price - (price * 100 / (100 + tax) + 1)
         }
     }
+    @Ignore
     var priceWithTax = when (taxType) {
         TaxType.NO_TAX -> price
         TaxType.TAX_EXCLUDED -> price + taxPrice
         TaxType.TAX_INCLUDED -> price
     }
+    @Ignore
     var priceWithoutTax = when (taxType) {
         TaxType.NO_TAX -> price
         TaxType.TAX_EXCLUDED -> price
         TaxType.TAX_INCLUDED -> price - taxPrice
     }
+}
+
+object TaxTypeConverter {
+    @TypeConverter
+    @JvmStatic
+    fun toTaxType(num: Int): TaxType = TaxType.values().first { it.value == num }
+
+    @TypeConverter
+    @JvmStatic
+    fun toInt(taxType: TaxType): Int = taxType.value
 }
 
 object ReceiptContentsStore {

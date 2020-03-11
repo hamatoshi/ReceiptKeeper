@@ -1,19 +1,18 @@
 package com.github.hamatoshi.receiptkeeper.data
 
 import androidx.recyclerview.widget.DiffUtil
-import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.PrimaryKey
+import androidx.room.*
 
-enum class TaxOperationType { Each, Total }
+enum class TaxOperationType(val value: Int) {
+    Each(1),
+    Total(2)
+}
 
-@Entity(tableName = "receipts_table")
+@Entity(tableName = "table_receipts")
+@TypeConverters(TaxOperationTypeConverter::class)
 data class Receipt(
     @PrimaryKey(autoGenerate = true)
-    val uid: Long = 0L,
-
-    @ColumnInfo(name = "receiptId")
-    var receiptId: Long = 0L,
+    val receiptId: Long = 0L,
 
     @ColumnInfo(name = "date")
     var date: Long = System.currentTimeMillis(),
@@ -28,8 +27,20 @@ data class Receipt(
     var total: Int = 0
 
 ) {
+    @Ignore
     var contents: MutableList<ReceiptContent> = mutableListOf()
+    @Ignore
     var isExpanded = false
+}
+
+object TaxOperationTypeConverter {
+    @TypeConverter
+    @JvmStatic
+    fun toTaxOperationType(num: Int): TaxOperationType = TaxOperationType.values().first {it.value == num}
+
+    @TypeConverter
+    @JvmStatic
+    fun toInt(taxOperation: TaxOperationType): Int = taxOperation.value
 }
 
 object ReceiptUtil {
@@ -54,15 +65,15 @@ object ReceiptUtil {
 }
 
 class ReceiptDiffCallback : DiffUtil.ItemCallback<Receipt>() {
-    override fun areItemsTheSame(oldItem: Receipt, newItem: Receipt): Boolean = oldItem.uid == newItem.uid
+    override fun areItemsTheSame(oldItem: Receipt, newItem: Receipt): Boolean = oldItem.receiptId == newItem.receiptId
     override fun areContentsTheSame(oldItem: Receipt, newItem: Receipt): Boolean = oldItem == newItem
 }
 
 object ReceiptStore {
     val allReceipts = listOf(
-        Receipt(uid = 1, receiptId = 1, shop = "Seven Eleven", taxOperation = TaxOperationType.Each),
-        Receipt(uid = 2, receiptId = 2, shop = "Olympic", taxOperation = TaxOperationType.Total),
-        Receipt(uid = 3, receiptId = 3 ,shop = "Tokyu Store", taxOperation = TaxOperationType.Total),
-        Receipt(uid = 4, receiptId = 4, shop = "Family Mart", taxOperation = TaxOperationType.Total)
+        Receipt(receiptId = 1, shop = "Seven Eleven", taxOperation = TaxOperationType.Each),
+        Receipt(receiptId = 2, shop = "Olympic", taxOperation = TaxOperationType.Total),
+        Receipt(receiptId = 3 ,shop = "Tokyu Store", taxOperation = TaxOperationType.Total),
+        Receipt(receiptId = 4, shop = "Family Mart", taxOperation = TaxOperationType.Total)
     )
 }
