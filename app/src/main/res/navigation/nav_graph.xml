@@ -10,5 +10,9 @@
         android:name="com.github.hamatoshi.receiptkeeper.ui.home.HomeFragment"
         android:label="HomeFragment"
         tools:layout="@layout/fragment_home"/>
+    <fragment
+        android:id="@+id/inputFragment"
+        android:name="com.github.hamatoshi.receiptkeeper.ui.input.InputFragment"
+        android:label="InputFragment" />
 
 </navigation>

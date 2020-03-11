@@ -10,6 +10,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.SimpleItemAnimator
+import com.github.hamatoshi.receiptkeeper.data.ReceiptContentDatabase
+import com.github.hamatoshi.receiptkeeper.data.ReceiptDatabase
 import com.github.hamatoshi.receiptkeeper.databinding.FragmentHomeBinding
 
 class HomeFragment : Fragment() {
@@ -20,12 +22,17 @@ class HomeFragment : Fragment() {
     ): View? {
         val binding =
             FragmentHomeBinding.inflate(layoutInflater, container, false)
-        val viewModelFactory = HomeViewModel.Factory()
+        val application = requireNotNull(this.activity).application
+        val receiptDatabaseDao =
+            ReceiptDatabase.getInstance(application).receiptDatabaseDao
+        val receiptContentDatabaseDao =
+            ReceiptContentDatabase.getInstance(application).receiptContentDatabaseDao
+        val viewModelFactory = HomeViewModel.Factory(receiptDatabaseDao, receiptContentDatabaseDao)
         val homeViewModel = ViewModelProvider(this, viewModelFactory).get(HomeViewModel::class.java)
 
         val adapter = ReceiptAdapter()
         val layoutManager = LinearLayoutManager(activity)
-        val dividerItemDecoration = DividerItemDecoration(binding.listReceipt.context, layoutManager.orientation)
+        //val dividerItemDecoration = DividerItemDecoration(binding.listReceipt.context, layoutManager.orientation)
 
         (binding.listReceipt.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
 

@@ -5,12 +5,19 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.github.hamatoshi.receiptkeeper.data.Receipt
-import com.github.hamatoshi.receiptkeeper.data.ReceiptContentsStore
-import com.github.hamatoshi.receiptkeeper.data.ReceiptStore
-import com.github.hamatoshi.receiptkeeper.data.ReceiptUtil
+import com.github.hamatoshi.receiptkeeper.data.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 
-class HomeViewModel : ViewModel() {
+class HomeViewModel(
+    receiptDatabaseDao: ReceiptDatabaseDao,
+    receiptContentDatabaseDao: ReceiptContentDatabaseDao
+) : ViewModel() {
+    private val viewModelJob = Job()
+    private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
+    private val receiptRepository = ReceiptRepository(receiptDatabaseDao)
+    private val receiptContentRepository = ReceiptContentRepository(receiptContentDatabaseDao)
 
     private val _receipts = MutableLiveData<List<Receipt>>()
     val receipts : LiveData<List<Receipt>>
@@ -29,11 +36,14 @@ class HomeViewModel : ViewModel() {
         _receipts.value = currentReceipts
     }
 
-    class Factory() : ViewModelProvider.Factory {
+    class Factory(
+        private val receiptDatabaseDao: ReceiptDatabaseDao,
+        private val receiptContentDatabaseDao: ReceiptContentDatabaseDao
+    ) : ViewModelProvider.Factory {
         @Suppress("unchecked_cast")
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
             if (modelClass.isAssignableFrom(HomeViewModel::class.java)) {
-                return HomeViewModel() as T
+                return HomeViewModel(receiptDatabaseDao, receiptContentDatabaseDao) as T
             }
             throw IllegalArgumentException("unknown viewModel class")
         }
