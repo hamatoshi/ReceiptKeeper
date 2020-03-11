@@ -9,7 +9,9 @@
         <item name="colorSecondary">@color/secondaryColor</item>
         <item name="colorSecondaryVariant">@color/secondaryDarkColor</item>
         <item name="colorOnSecondary">@color/secondaryTextColor</item>
+        <item name="colorSurface">#cccccc</item>
 
+        <item name="fontFamily">@font/roboto_condensed_regular</item>
         <item name="android:divider">@color/primaryDarkColor</item>
     </style>
 

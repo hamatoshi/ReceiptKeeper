@@ -33,7 +33,7 @@ class HomeFragment : Fragment() {
             listReceipt.adapter = adapter
             listReceipt.layoutManager = layoutManager
             viewModel = homeViewModel
-            listReceipt.addItemDecoration(dividerItemDecoration)
+            //listReceipt.addItemDecoration(dividerItemDecoration)
         }
         binding.lifecycleOwner = this
 
