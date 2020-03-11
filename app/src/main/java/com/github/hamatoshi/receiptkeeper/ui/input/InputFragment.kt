@@ -9,12 +9,13 @@ import com.github.hamatoshi.receiptkeeper.databinding.FragmentInputBinding
 
 class InputFragment : Fragment() {
 
+    private lateinit var binding: FragmentInputBinding
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val binding = FragmentInputBinding.inflate(inflater, container, false)
+        binding = FragmentInputBinding.inflate(inflater, container, false)
         return binding.root
     }
-
 }

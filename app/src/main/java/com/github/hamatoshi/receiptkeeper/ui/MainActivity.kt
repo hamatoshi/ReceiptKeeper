@@ -14,6 +14,7 @@ import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import com.github.hamatoshi.receiptkeeper.databinding.ActivityMainBinding
 import com.github.hamatoshi.receiptkeeper.R
+import com.github.hamatoshi.receiptkeeper.ui.home.HomeFragmentDirections
 
 class MainActivity : AppCompatActivity() {
 
@@ -62,7 +63,7 @@ class MainActivity : AppCompatActivity() {
             setShowMotionSpecResource(R.animator.fab_show)
             setHideMotionSpecResource(R.animator.fab_hide)
             setOnClickListener {
-                navController.navigate(R.id.inputFragment)
+                navController.navigate(HomeFragmentDirections.actionHomeToInput())
             }
         }
     }
