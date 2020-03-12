@@ -22,6 +22,21 @@
         android:id="@+id/inputFragment"
         android:name="com.github.hamatoshi.receiptkeeper.ui.input.InputFragment"
         android:label="InputFragment"
-        tools:layout="@layout/fragment_input"/>
+        tools:layout="@layout/fragment_input">
+        <action
+            android:id="@+id/action_inputFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:enterAnim="@anim/slide_in_top"
+            app:exitAnim="@anim/slide_out_bottom"
+            app:popEnterAnim="@anim/slide_in_bottom"
+            app:popExitAnim="@anim/slide_out_top"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/homeFragment"
+            app:popUpToInclusive="true"/>
+        <argument
+            android:name="receiptId"
+            app:argType="long"
+            android:defaultValue="-1L" />
+    </fragment>
 
 </navigation>
