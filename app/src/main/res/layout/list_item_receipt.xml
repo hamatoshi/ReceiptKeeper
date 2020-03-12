@@ -5,8 +5,8 @@
 
     <data>
         <variable
-            name="receipt"
-            type="com.github.hamatoshi.receiptkeeper.data.Receipt" />
+            name="receiptSummary"
+            type="com.github.hamatoshi.receiptkeeper.data.ReceiptSummary" />
     </data>
 
     <com.google.android.material.card.MaterialCardView
@@ -36,7 +36,7 @@
                 android:layout_marginStart="@dimen/spacing_normal"
                 android:layout_marginEnd="@dimen/spacing_normal"
                 android:layout_marginTop="@dimen/spacing_normal"
-                android:text="@{receipt.shop}"
+                android:text="@{receiptSummary.shop}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="shop name" />
@@ -50,7 +50,7 @@
                 android:layout_marginTop="@dimen/spacing_normal"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:price="@{receipt.total}"
+                app:price="@{receiptSummary.total}"
                 tools:text="2000"/>
 
             <androidx.recyclerview.widget.RecyclerView

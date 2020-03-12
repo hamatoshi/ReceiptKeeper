@@ -5,9 +5,10 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 
-@Database(entities = [Receipt::class], version = 1, exportSchema = false)
+@Database(entities = [ReceiptSummary::class, ReceiptContent::class], version = 1, exportSchema = false)
 abstract class ReceiptDatabase : RoomDatabase() {
-    abstract val receiptDatabaseDao: ReceiptDatabaseDao
+    abstract val receiptSummaryDatabaseDao: ReceiptSummaryDatabaseDao
+    abstract val receiptContentDatabaseDao: ReceiptContentDatabaseDao
     companion object {
         @Volatile
         private var INSTANCE: ReceiptDatabase? = null

@@ -10,7 +10,7 @@ enum class TaxOperationType(val value: Int) {
 
 @Entity(tableName = "table_receipts")
 @TypeConverters(TaxOperationTypeConverter::class)
-data class Receipt(
+data class ReceiptSummary(
     @PrimaryKey(autoGenerate = true)
     val receiptId: Long = 0L,
 
@@ -44,11 +44,11 @@ object TaxOperationTypeConverter {
 }
 
 object ReceiptUtil {
-    fun total(receipt: Receipt): Int {
-        return when (receipt.taxOperation) {
-            TaxOperationType.Each -> receipt.contents.sumBy { it.priceWithTax }
+    fun total(receiptSummary: ReceiptSummary): Int {
+        return when (receiptSummary.taxOperation) {
+            TaxOperationType.Each -> receiptSummary.contents.sumBy { it.priceWithTax }
             TaxOperationType.Total -> {
-                val taxGroupLists = receipt.contents.groupBy { it.tax }
+                val taxGroupLists = receiptSummary.contents.groupBy { it.tax }
                 var result = 0
                 for (list in taxGroupLists) {
                     result += list.value.filter { it.taxType == TaxType.TAX_EXCLUDED }
@@ -64,16 +64,16 @@ object ReceiptUtil {
     }
 }
 
-class ReceiptDiffCallback : DiffUtil.ItemCallback<Receipt>() {
-    override fun areItemsTheSame(oldItem: Receipt, newItem: Receipt): Boolean = oldItem.receiptId == newItem.receiptId
-    override fun areContentsTheSame(oldItem: Receipt, newItem: Receipt): Boolean = oldItem == newItem
+class ReceiptDiffCallback : DiffUtil.ItemCallback<ReceiptSummary>() {
+    override fun areItemsTheSame(oldItem: ReceiptSummary, newItem: ReceiptSummary): Boolean = oldItem.receiptId == newItem.receiptId
+    override fun areContentsTheSame(oldItem: ReceiptSummary, newItem: ReceiptSummary): Boolean = oldItem == newItem
 }
 
 object ReceiptStore {
     val allReceipts = listOf(
-        Receipt(receiptId = 1, shop = "Seven Eleven", taxOperation = TaxOperationType.Each),
-        Receipt(receiptId = 2, shop = "Olympic", taxOperation = TaxOperationType.Total),
-        Receipt(receiptId = 3 ,shop = "Tokyu Store", taxOperation = TaxOperationType.Total),
-        Receipt(receiptId = 4, shop = "Family Mart", taxOperation = TaxOperationType.Total)
+        ReceiptSummary(receiptId = 1, shop = "Seven Eleven", taxOperation = TaxOperationType.Each),
+        ReceiptSummary(receiptId = 2, shop = "Olympic", taxOperation = TaxOperationType.Total),
+        ReceiptSummary(receiptId = 3 ,shop = "Tokyu Store", taxOperation = TaxOperationType.Total),
+        ReceiptSummary(receiptId = 4, shop = "Family Mart", taxOperation = TaxOperationType.Total)
     )
 }

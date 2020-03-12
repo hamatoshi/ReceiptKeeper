@@ -4,17 +4,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.github.hamatoshi.receiptkeeper.data.Receipt
+import com.github.hamatoshi.receiptkeeper.data.ReceiptSummary
 import com.github.hamatoshi.receiptkeeper.databinding.ListItemReceiptBinding
 
 class ReceiptViewHolder private constructor(private val binding: ListItemReceiptBinding):
     RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(item: Receipt) {
+    fun bind(item: ReceiptSummary) {
         val adapter = ReceiptContentAdapter()
         adapter.submitList(item.contents)
         binding.apply {
-            receipt = item
+            receiptSummary = item
             listReceiptContents.adapter = adapter
             //listReceiptContents.setListViewHeightBasedOnChildren()
             listReceiptContents.visibility = if(item.isExpanded) { View.VISIBLE } else { View.GONE }

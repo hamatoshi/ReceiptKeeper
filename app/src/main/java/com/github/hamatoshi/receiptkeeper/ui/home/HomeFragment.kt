@@ -7,10 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.SimpleItemAnimator
-import com.github.hamatoshi.receiptkeeper.data.ReceiptContentDatabase
 import com.github.hamatoshi.receiptkeeper.data.ReceiptDatabase
 import com.github.hamatoshi.receiptkeeper.databinding.FragmentHomeBinding
 
@@ -23,11 +21,10 @@ class HomeFragment : Fragment() {
         val binding =
             FragmentHomeBinding.inflate(layoutInflater, container, false)
         val application = requireNotNull(this.activity).application
-        val receiptDatabaseDao =
-            ReceiptDatabase.getInstance(application).receiptDatabaseDao
-        val receiptContentDatabaseDao =
-            ReceiptContentDatabase.getInstance(application).receiptContentDatabaseDao
-        val viewModelFactory = HomeViewModel.Factory(receiptDatabaseDao, receiptContentDatabaseDao)
+        val receiptDatabase = ReceiptDatabase.getInstance(application)
+        val receiptSummaryDatabaseDao = receiptDatabase.receiptSummaryDatabaseDao
+        val receiptContentDatabaseDao = receiptDatabase.receiptContentDatabaseDao
+        val viewModelFactory = HomeViewModel.Factory(receiptSummaryDatabaseDao, receiptContentDatabaseDao)
         val homeViewModel = ViewModelProvider(this, viewModelFactory).get(HomeViewModel::class.java)
 
         val adapter = ReceiptAdapter()
