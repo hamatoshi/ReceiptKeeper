@@ -2,22 +2,20 @@ package com.github.hamatoshi.receiptkeeper.util
 
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
-import com.github.hamatoshi.receiptkeeper.data.Receipt
+import com.github.hamatoshi.receiptkeeper.R
 import com.github.hamatoshi.receiptkeeper.data.ReceiptContent
 import com.github.hamatoshi.receiptkeeper.data.TaxType
+import java.text.DecimalFormat
 
-
-@BindingAdapter("totalPrice")
-fun TextView.setTotalPrice(item: Receipt?) {
-    item?.let {
-        text = item.total.toString()
-    }
-}
+private const val WESTERN_PATTERN = "#,##0.00"
+private const val JAPANESE_PATTERN = "#,###"
 
 @BindingAdapter("price")
-fun TextView.setPrice(item: ReceiptContent?) {
-    item?.let {
-        text = item.price.toString()
+fun TextView.setPrice(price: Int?) {
+    price?.let {
+        val formatter = DecimalFormat(WESTERN_PATTERN)
+        val formattedNumber = formatter.format(price.toDouble() / 100)
+        text = resources.getString(R.string.string_price_dollar, formattedNumber)
     }
 }
 

@@ -50,7 +50,7 @@
                 android:layout_marginTop="@dimen/spacing_normal"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:totalPrice="@{receipt}"
+                app:price="@{receipt.total}"
                 tools:text="2000"/>
 
             <androidx.recyclerview.widget.RecyclerView

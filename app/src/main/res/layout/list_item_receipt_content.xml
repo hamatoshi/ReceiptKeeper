@@ -44,7 +44,7 @@
             app:layout_constraintStart_toEndOf="@id/text_item"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:price="@{receiptContent}"
+            app:price="@{receiptContent.price}"
             tools:text="1000" />
 
         <com.google.android.material.textview.MaterialTextView
