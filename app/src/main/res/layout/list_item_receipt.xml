@@ -14,12 +14,12 @@
         style="@style/Widget.MaterialComponents.CardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/spacing_normal"
-        android:layout_marginStart="@dimen/spacing_normal"
-        android:layout_marginEnd="@dimen/spacing_normal"
+        android:layout_marginTop="@dimen/spacing_small"
+        android:layout_marginStart="@dimen/spacing_small"
+        android:layout_marginEnd="@dimen/spacing_small"
         android:clickable="true"
         android:focusable="true"
-        app:cardElevation="@dimen/spacing_tiny"
+        app:cardElevation="6dp"
         app:cardCornerRadius="@dimen/spacing_tiny"
         app:cardPreventCornerOverlap="false">
 
@@ -53,13 +53,14 @@
                 app:totalPrice="@{receipt}"
                 tools:text="2000"/>
 
-            <ListView
+            <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/list_receipt_contents"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/spacing_normal"
                 android:layout_marginEnd="@dimen/spacing_normal"
                 android:layout_marginTop="@dimen/spacing_normal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/text_shop"
                 app:layout_constraintEnd_toEndOf="parent" />

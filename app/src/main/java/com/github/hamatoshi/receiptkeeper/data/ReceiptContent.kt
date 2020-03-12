@@ -1,5 +1,6 @@
 package com.github.hamatoshi.receiptkeeper.data
 
+import androidx.recyclerview.widget.DiffUtil
 import androidx.room.*
 
 enum class TaxType(val value: Int) {
@@ -58,6 +59,11 @@ data class ReceiptContent(
         TaxType.TAX_EXCLUDED -> price
         TaxType.TAX_INCLUDED -> price - taxPrice
     }
+}
+
+class ReceiptContentDiffCallback: DiffUtil.ItemCallback<ReceiptContent>() {
+    override fun areItemsTheSame(oldItem: ReceiptContent, newItem: ReceiptContent): Boolean = oldItem.uid == newItem.uid
+    override fun areContentsTheSame(oldItem: ReceiptContent, newItem: ReceiptContent): Boolean = oldItem == newItem
 }
 
 object TaxTypeConverter {
