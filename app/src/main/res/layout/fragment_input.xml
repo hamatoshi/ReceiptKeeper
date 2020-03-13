@@ -4,7 +4,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
+        <variable
+            name="viewModel"
+            type="com.github.hamatoshi.receiptkeeper.ui.input.InputViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
