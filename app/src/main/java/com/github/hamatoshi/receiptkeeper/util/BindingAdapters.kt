@@ -33,8 +33,8 @@ fun TextView.setTaxType(item: ReceiptContent?) {
     item?.let {
         text = when (item.taxType) {
             TaxType.NO_TAX -> "No tax"
-            TaxType.TAX_INCLUDED -> "Tax included"
-            TaxType.TAX_EXCLUDED -> "Tax excluded"
+            TaxType.TAX_INCLUDED -> "tax inc."
+            TaxType.TAX_EXCLUDED -> "tax exc."
         }
     }
 }

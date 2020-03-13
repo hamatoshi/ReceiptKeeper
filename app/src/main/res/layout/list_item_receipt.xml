@@ -27,52 +27,51 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/spacing_normal">
 
-            <!-- total price -->
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/text_total_price"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="@+id/guideline"
-                app:layout_constraintTop_toTopOf="@id/text_shop"
-                app:price="@{receiptSummary.totalPrice()}"
-                tools:text="2000" />
-
-            <!-- total tax price -->
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/text_total_tax_price"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/spacing_normal"
-                android:layout_marginEnd="@dimen/spacing_normal"
-                app:layout_constraintStart_toEndOf="@+id/text_total_price"
-                app:layout_constraintTop_toTopOf="@+id/text_shop"
-                app:price="@{receiptSummary.totalTaxPrice()}"
-                tools:text="500" />
-
-            <!-- tax operation -->
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/text_tax_operation"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/spacing_normal"
-                android:layout_marginEnd="@dimen/spacing_normal"
-                app:layout_constraintStart_toEndOf="@+id/text_total_tax_price"
-                app:layout_constraintTop_toTopOf="@+id/text_shop"
-                app:taxOperation="@{receiptSummary}"
-                tools:text="taxed on each" />
-
             <!-- shop -->
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/text_shop"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/spacing_normal"
                 android:layout_marginTop="@dimen/spacing_normal"
                 android:text="@{receiptSummary.shop}"
-                app:layout_constraintStart_toEndOf="@+id/text_tax_operation"
+                app:layout_constraintStart_toStartOf="@id/guideline"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="shop name" />
 
+            <!-- total price -->
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/text_total_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/spacing_normal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/text_shop"
+                app:price="@{receiptSummary.totalPrice()}"
+                tools:text="2000" />
+
+            <!-- total tax price -->
+<!--            <com.google.android.material.textview.MaterialTextView-->
+<!--                android:id="@+id/text_total_tax_price"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginStart="@dimen/spacing_normal"-->
+<!--                android:layout_marginEnd="@dimen/spacing_normal"-->
+<!--                app:layout_constraintStart_toEndOf="@+id/text_total_price"-->
+<!--                app:layout_constraintTop_toTopOf="@+id/text_shop"-->
+<!--                app:price="@{receiptSummary.totalTaxPrice()}"-->
+<!--                tools:text="500" />-->
+
+            <!-- tax operation -->
+<!--            <com.google.android.material.textview.MaterialTextView-->
+<!--                android:id="@+id/text_tax_operation"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginStart="@dimen/spacing_normal"-->
+<!--                android:layout_marginEnd="@dimen/spacing_normal"-->
+<!--                app:layout_constraintStart_toEndOf="@+id/text_total_tax_price"-->
+<!--                app:layout_constraintTop_toTopOf="@+id/text_shop"-->
+<!--                app:taxOperation="@{receiptSummary}"-->
+<!--                tools:text="taxed on each" />-->
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/list_receipt_contents"

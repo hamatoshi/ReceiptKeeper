@@ -14,27 +14,52 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <!-- category -->
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/text_category"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_small"
+            android:layout_marginBottom="@dimen/spacing_small"
+            android:text="@{receiptContent.category}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="restaurant" />
+
+        <!-- item -->
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/text_item"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_small"
+            android:text="@{receiptContent.item}"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@id/guideline_receipt_content"
+            tools:text="item name" />
+
         <!-- price -->
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/text_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_small"
-            android:layout_marginBottom="@dimen/spacing_small"
-            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="@dimen/spacing_tiny"
+            app:layout_constraintBottom_toTopOf="@+id/text_tax_type"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:price="@{receiptContent.price}"
             tools:text="1000" />
 
         <!-- tax -->
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/tax"
+            android:id="@+id/text_tax"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/spacing_small"
-            app:layout_constraintStart_toEndOf="@+id/text_price"
-            app:layout_constraintTop_toTopOf="@+id/text_price"
+            android:layout_marginEnd="@dimen/spacing_tiny"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toStartOf="@+id/text_tax_type"
+            app:layout_constraintTop_toTopOf="@id/text_tax_type"
             app:tax="@{receiptContent}"
             tools:text="8%" />
 
@@ -43,33 +68,20 @@
             android:id="@+id/text_tax_type"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/spacing_small"
-            app:layout_constraintStart_toEndOf="@+id/tax"
-            app:layout_constraintTop_toTopOf="@+id/text_price"
+            android:layout_marginBottom="@dimen/spacing_tiny"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/text_price"
+            app:layout_constraintTop_toBottomOf="@+id/text_price"
             app:taxType="@{receiptContent}"
-            tools:text="tax included" />
+            tools:text="tax exc." />
 
-        <!-- category -->
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/text_category"
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline_receipt_content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/spacing_small"
-            app:layout_constraintStart_toEndOf="@id/text_tax_type"
-            app:layout_constraintTop_toTopOf="@+id/text_price"
-            android:text="@{receiptContent.category}"
-            tools:text="category"/>
-
-        <!-- item -->
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/text_item"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/spacing_small"
-            app:layout_constraintStart_toEndOf="@+id/text_category"
-            app:layout_constraintTop_toTopOf="@+id/text_price"
-            android:text="@{receiptContent.item}"
-            tools:text="item name"/>
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="80dp" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
