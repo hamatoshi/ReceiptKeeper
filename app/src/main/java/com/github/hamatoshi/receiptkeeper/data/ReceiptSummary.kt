@@ -2,6 +2,10 @@ package com.github.hamatoshi.receiptkeeper.data
 
 import androidx.recyclerview.widget.DiffUtil
 import androidx.room.*
+import com.github.hamatoshi.receiptkeeper.util.totalPriceTaxOnTotal
+import com.github.hamatoshi.receiptkeeper.util.totalPriceTaxOnEach
+import com.github.hamatoshi.receiptkeeper.util.totalTaxPriceTaxOnTotal
+import com.github.hamatoshi.receiptkeeper.util.totalTaxPriceTaxOnEach
 
 enum class TaxOperationType(val value: Int) {
     Each(1),
@@ -31,6 +35,20 @@ data class ReceiptSummary(
     var contents: MutableList<ReceiptContent> = mutableListOf()
     @Ignore
     var isExpanded = false
+
+    fun totalPrice(): Int {
+        return when(taxOperation) {
+            TaxOperationType.Each -> contents.totalPriceTaxOnEach()
+            TaxOperationType.Total -> contents.totalPriceTaxOnTotal()
+        }
+    }
+
+    fun totalTaxPrice(): Int {
+        return when (taxOperation) {
+            TaxOperationType.Each -> contents.totalTaxPriceTaxOnEach()
+            TaxOperationType.Total -> contents.totalTaxPriceTaxOnTotal()
+        }
+    }
 }
 
 object TaxOperationTypeConverter {
@@ -41,27 +59,6 @@ object TaxOperationTypeConverter {
     @TypeConverter
     @JvmStatic
     fun toInt(taxOperation: TaxOperationType): Int = taxOperation.value
-}
-
-object ReceiptUtil {
-    fun total(receiptSummary: ReceiptSummary): Int {
-        return when (receiptSummary.taxOperation) {
-            TaxOperationType.Each -> receiptSummary.contents.sumBy { it.priceWithTax }
-            TaxOperationType.Total -> {
-                val taxGroupLists = receiptSummary.contents.groupBy { it.tax }
-                var result = 0
-                for (list in taxGroupLists) {
-                    result += list.value.filter { it.taxType == TaxType.TAX_EXCLUDED }
-                        .sumBy { it.priceWithoutTax } * (100 + list.key) / 100
-                    result += list.value.filter { it.taxType == TaxType.TAX_INCLUDED }
-                        .sumBy { it.priceWithTax }
-                    result += list.value.filter { it.taxType == TaxType.NO_TAX }
-                        .sumBy { it.price }
-                }
-                result
-            }
-        }
-    }
 }
 
 class ReceiptDiffCallback : DiffUtil.ItemCallback<ReceiptSummary>() {

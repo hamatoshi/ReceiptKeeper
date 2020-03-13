@@ -25,13 +25,9 @@ class HomeViewModel(
     init {
         val currentReceipts = ReceiptStore.allReceipts
         currentReceipts[0].contents = ReceiptContentsStore.receiptContentsSevenEleven
-        currentReceipts[0].total = ReceiptUtil.total(currentReceipts[0])
         currentReceipts[1].contents = ReceiptContentsStore.receiptContentsOlympic
-        currentReceipts[1].total = ReceiptUtil.total(currentReceipts[1])
         currentReceipts[2].contents = ReceiptContentsStore.receiptContentsTokyuStore
-        currentReceipts[2].total = ReceiptUtil.total(currentReceipts[2])
         currentReceipts[3].contents = ReceiptContentsStore.receiptContentsFamilyMart
-        currentReceipts[3].total = ReceiptUtil.total(currentReceipts[3])
         _receipts.value = currentReceipts
     }
 

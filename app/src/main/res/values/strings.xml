@@ -8,7 +8,8 @@
     <string name="nav_title_daily">Daily</string>
     <string name="nav_title_help">Help and feedback</string>
     <string name="string_price_yen">¥ %1$s</string>
-    <string name="string_price_dollar">$ %1$s</string>
+    <string name="string_price_dollar_format">$ %1$s</string>
+    <string name="tax_format">%1$d\%%</string>
 
 
 </resources>

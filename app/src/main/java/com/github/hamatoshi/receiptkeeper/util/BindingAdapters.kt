@@ -4,6 +4,8 @@ import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import com.github.hamatoshi.receiptkeeper.R
 import com.github.hamatoshi.receiptkeeper.data.ReceiptContent
+import com.github.hamatoshi.receiptkeeper.data.ReceiptSummary
+import com.github.hamatoshi.receiptkeeper.data.TaxOperationType
 import com.github.hamatoshi.receiptkeeper.data.TaxType
 import java.text.DecimalFormat
 
@@ -15,7 +17,14 @@ fun TextView.setPrice(price: Int?) {
     price?.let {
         val formatter = DecimalFormat(WESTERN_PATTERN)
         val formattedNumber = formatter.format(price.toDouble() / 100)
-        text = resources.getString(R.string.string_price_dollar, formattedNumber)
+        text = resources.getString(R.string.string_price_dollar_format, formattedNumber)
+    }
+}
+
+@BindingAdapter("tax")
+fun TextView.setTax(item: ReceiptContent?) {
+    item?.let {
+        text = resources.getString(R.string.tax_format, item.tax)
     }
 }
 
@@ -28,5 +37,14 @@ fun TextView.setTaxType(item: ReceiptContent?) {
             TaxType.TAX_EXCLUDED -> "Tax excluded"
         }
     }
+}
 
+@BindingAdapter("taxOperation")
+fun TextView.setTaxOperation(item: ReceiptSummary?) {
+    item?.let {
+        text = when (item.taxOperation) {
+            TaxOperationType.Total -> "Taxed on total"
+            TaxOperationType.Each -> "Taxed on each"
+        }
+    }
 }
