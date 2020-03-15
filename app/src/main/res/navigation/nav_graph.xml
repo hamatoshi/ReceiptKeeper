@@ -24,7 +24,7 @@
         android:label="InputFragment"
         tools:layout="@layout/fragment_input">
         <action
-            android:id="@+id/action_inputFragment_to_homeFragment"
+            android:id="@+id/action_input_to_home"
             app:destination="@id/homeFragment"
             app:enterAnim="@anim/slide_in_top"
             app:exitAnim="@anim/slide_out_bottom"

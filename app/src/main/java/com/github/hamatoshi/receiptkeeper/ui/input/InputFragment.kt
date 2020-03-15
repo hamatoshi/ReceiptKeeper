@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.github.hamatoshi.receiptkeeper.databinding.FragmentInputBinding
@@ -23,17 +23,23 @@ class InputFragment : Fragment() {
         binding = FragmentInputBinding.inflate(inflater, container, false)
 
         val viewModelFactory = InputViewModel.Factory()
-        val homeViewModel = ViewModelProvider(this, viewModelFactory).get(InputViewModel::class.java)
+        val inputViewModel = ViewModelProvider(this, viewModelFactory).get(InputViewModel::class.java)
 
         binding.run {
-            viewModel = homeViewModel
+            viewModel = inputViewModel
         }
         binding.lifecycleOwner = this
 
+        inputViewModel.navigateToHome.observe(viewLifecycleOwner, Observer {
+            if (it == true) {
+                this.findNavController().navigate(InputFragmentDirections.actionInputToHome())
+                inputViewModel.doneNavigating()
+            }
+        })
+
+        // set fab action
         val mainActivity = (requireActivity() as MainActivity)
-        mainActivity.setUpMainFab {
-            Toast.makeText(context, "Clicked", Toast.LENGTH_SHORT).show()
-        }
+        mainActivity.setUpMainFab { inputViewModel.onFabClicked() }
 
         return binding.root
     }

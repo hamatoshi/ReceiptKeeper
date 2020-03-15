@@ -44,6 +44,7 @@ class HomeFragment : Fragment() {
             listReceipt.addItemDecoration(dividerItemDecoration)
             viewModel = homeViewModel
         }
+
         binding.lifecycleOwner = this
 
         homeViewModel.receipts.observe(viewLifecycleOwner, Observer {
@@ -52,11 +53,16 @@ class HomeFragment : Fragment() {
             }
         })
 
-        // set fab actions
+        homeViewModel.navigateToInput.observe(viewLifecycleOwner, Observer {
+            if (it == true) {
+                this.findNavController().navigate(HomeFragmentDirections.actionHomeToInput())
+                homeViewModel.doneNavigating()
+            }
+        })
+
+        // set fab action
         val mainActivity = (requireActivity() as MainActivity)
-            mainActivity.setUpMainFab {
-            findNavController().navigate(HomeFragmentDirections.actionHomeToInput())
-        }
+        mainActivity.setUpMainFab { homeViewModel.onFabClicked() }
 
         return binding.root
     }

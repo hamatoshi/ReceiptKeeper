@@ -31,6 +31,13 @@ class HomeViewModel(
         _receipts.value = currentReceipts
     }
 
+    // For navigation to InputFragment
+    private val _navigateToInput = MutableLiveData<Boolean>()
+    val navigateToInput: LiveData<Boolean>
+        get() = _navigateToInput
+    fun onFabClicked() { _navigateToInput.value = true }
+    fun doneNavigating() { _navigateToInput.value = false }
+
     class Factory(
         private val receiptSummaryDatabaseDao: ReceiptSummaryDatabaseDao,
         private val receiptContentDatabaseDao: ReceiptContentDatabaseDao
