@@ -3,18 +3,14 @@ package com.github.hamatoshi.receiptkeeper.ui
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
 import android.view.MotionEvent
-import android.view.View
 import android.view.inputmethod.InputMethodManager
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import com.github.hamatoshi.receiptkeeper.databinding.ActivityMainBinding
 import com.github.hamatoshi.receiptkeeper.R
-import com.github.hamatoshi.receiptkeeper.ui.home.HomeFragmentDirections
+import com.google.android.material.bottomappbar.BottomAppBar
 
 class MainActivity : AppCompatActivity() {
 
@@ -28,15 +24,17 @@ class MainActivity : AppCompatActivity() {
         navController = findNavController(R.id.nav_host_fragment)
 
         setSupportActionBar(binding.bottomAppbar)
+
         setUpNavController()
-        setUpMainFab()
 
     }
 
     private fun setUpNavController() {
-        navController.addOnDestinationChangedListener { controller, destination, arguments ->
+        navController.addOnDestinationChangedListener { controller, destination, _ ->
             when (destination.id) {
                 controller.graph.startDestination -> setBottomAppBarForHome()
+                R.id.homeFragment -> setBottomAppBarForHome()
+                R.id.inputFragment -> setBottomAppBarForInput()
                 else -> setBottomAppBarForOthers()
             }
         }
@@ -44,45 +42,32 @@ class MainActivity : AppCompatActivity() {
 
     private fun setBottomAppBarForHome() {
         binding.run {
-            bottomAppbar.performShow()
-            bottomAppbar.visibility = View.VISIBLE
-            mainFab.show()
+            bottomAppbar.fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_CENTER
+            bottomAppbar.navigationIcon = getDrawable(R.drawable.ic_menu_white_24dp)
+            mainFab.setImageDrawable(getDrawable(R.drawable.ic_add_black_24dp))
+        }
+    }
+
+    private fun setBottomAppBarForInput() {
+        binding.run {
+            bottomAppbar.fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_END
+            bottomAppbar.navigationIcon = getDrawable(R.drawable.ic_arrow_back_white_24dp)
+            mainFab.setImageDrawable(getDrawable(R.drawable.ic_save_black_24dp))
         }
     }
 
     private fun setBottomAppBarForOthers() {
         binding.run {
-            bottomAppbar.performHide()
-            bottomAppbar.visibility = View.GONE
             mainFab.hide()
         }
     }
 
-    private fun setUpMainFab() {
+    fun setUpMainFab(clickListener: () -> Unit) {
         binding.mainFab.apply {
-            setShowMotionSpecResource(R.animator.fab_show)
-            setHideMotionSpecResource(R.animator.fab_hide)
             setOnClickListener {
-                navController.navigate(HomeFragmentDirections.actionHomeToInput())
+                clickListener()
             }
         }
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        val inflater = menuInflater
-        inflater.inflate(R.menu.bottom_appbar_menu, menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.appbar_search -> Toast.makeText(this, "Search clicked", Toast.LENGTH_SHORT).show()
-            android.R.id.home -> {
-                val bottomNavigationDrawerFragment = BottomNavigationDrawerFragment()
-                bottomNavigationDrawerFragment.show(supportFragmentManager, bottomNavigationDrawerFragment.tag)
-            }
-        }
-        return true
     }
 
     override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {

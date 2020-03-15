@@ -25,14 +25,13 @@
             style="@style/Widget.MaterialComponents.BottomAppBar.Colored"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            app:navigationIcon="@drawable/ic_menu_white_24dp"/>
+            android:layout_gravity="bottom" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/main_fab"
+            style="@style/Widget.MaterialComponents.FloatingActionButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_add_black_24dp"
             app:layout_anchor="@id/bottom_appbar" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

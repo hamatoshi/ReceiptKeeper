@@ -1,16 +1,20 @@
 package com.github.hamatoshi.receiptkeeper.ui.home
 
 import android.os.Bundle
+import android.view.*
+import android.widget.Toast
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.SimpleItemAnimator
+import com.github.hamatoshi.receiptkeeper.R
 import com.github.hamatoshi.receiptkeeper.data.ReceiptDatabase
 import com.github.hamatoshi.receiptkeeper.databinding.FragmentHomeBinding
+import com.github.hamatoshi.receiptkeeper.ui.BottomNavigationDrawerFragment
+import com.github.hamatoshi.receiptkeeper.ui.MainActivity
 
 class HomeFragment : Fragment() {
 
@@ -29,15 +33,16 @@ class HomeFragment : Fragment() {
 
         val adapter = ReceiptAdapter()
         val layoutManager = LinearLayoutManager(activity)
-        //val dividerItemDecoration = DividerItemDecoration(binding.listReceipt.context, layoutManager.orientation)
+        val dividerItemDecoration = DividerItemDecoration(binding.listReceipt.context, layoutManager.orientation)
 
+        // remove ripple effect of CardView
         (binding.listReceipt.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
 
         binding.run {
             listReceipt.adapter = adapter
             listReceipt.layoutManager = layoutManager
+            listReceipt.addItemDecoration(dividerItemDecoration)
             viewModel = homeViewModel
-            //listReceipt.addItemDecoration(dividerItemDecoration)
         }
         binding.lifecycleOwner = this
 
@@ -47,7 +52,33 @@ class HomeFragment : Fragment() {
             }
         })
 
+        // set fab actions
+        val mainActivity = (requireActivity() as MainActivity)
+            mainActivity.setUpMainFab {
+            findNavController().navigate(HomeFragmentDirections.actionHomeToInput())
+        }
+
         return binding.root
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.bottom_appbar_menu, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.appbar_search -> Toast.makeText(context, "Search clicked", Toast.LENGTH_SHORT).show()
+            android.R.id.home -> {
+                val bottomNavigationDrawerFragment = BottomNavigationDrawerFragment()
+                bottomNavigationDrawerFragment.show(parentFragmentManager, bottomNavigationDrawerFragment.tag)
+            }
+        }
+        return true
+    }
 }
