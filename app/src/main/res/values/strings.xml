@@ -16,4 +16,7 @@
     <string name="hint_item_name">Item name</string>
     <string name="hint_shop_name">Shop name</string>
     <string name="hint_time">Time</string>
+    <string name="icon_for_shop">Icon for shop</string>
+    <string name="icon_for_tax_operation">Icon for tax operation</string>
+    <string name="icon_for_date">Icon for date</string>
 </resources>

@@ -8,4 +8,6 @@
   <color name="secondaryDarkColor">#c56200</color>
   <color name="primaryTextColor">#ffffff</color>
   <color name="secondaryTextColor">#000000</color>
+  <color name="dividerColorOnLightBackground">#1F000000</color>
+  <color name="dividerColorOnDarkBackground">#1FFFFFFF</color>
 </resources>

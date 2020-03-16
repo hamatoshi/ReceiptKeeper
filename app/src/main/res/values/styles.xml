@@ -12,9 +12,18 @@
         <item name="colorSurface">@color/design_default_color_surface</item>
 
         <item name="fontFamily">@font/roboto</item>
-        <item name="android:textSize">16sp</item>
         <item name="android:textColor">@color/secondaryTextColor</item>
-        <item name="android:divider">@color/primaryDarkColor</item>
+    </style>
+
+    <style name="divider">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+    </style>
+    <style name="dividerOnLightBackground" parent="divider">
+        <item name="android:background">@color/dividerColorOnLightBackground</item>
+    </style>
+    <style name="dividerOnDarkBackground" parent="divider">
+        <item name="android:background">@color/dividerColorOnDarkBackground</item>
     </style>
 
 </resources>

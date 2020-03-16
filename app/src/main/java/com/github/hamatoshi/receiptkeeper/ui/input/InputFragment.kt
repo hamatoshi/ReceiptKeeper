@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -37,6 +38,9 @@ class InputFragment : Fragment() {
             }
         })
 
+        binding.inputDate.setOnClickListener { showDatePickerDialog(it as TextView) }
+        binding.inputTime.setOnClickListener { showTimePickerDialog(it as TextView) }
+
         // set fab action
         val mainActivity = (requireActivity() as MainActivity)
         mainActivity.setUpMainFab { inputViewModel.onFabClicked() }
@@ -52,5 +56,13 @@ class InputFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         findNavController().navigateUp()
         return true
+    }
+
+    private fun showTimePickerDialog(textView: TextView) {
+        TimePickerFragment(textView).show(parentFragmentManager, "timePicker")
+    }
+
+    private fun showDatePickerDialog(textView: TextView) {
+        DatePickerFragment(textView).show(parentFragmentManager, "datePicker")
     }
 }
