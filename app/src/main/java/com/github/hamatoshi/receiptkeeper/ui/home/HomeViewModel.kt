@@ -5,6 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.github.hamatoshi.receiptkeeper.data.*
+import com.github.hamatoshi.receiptkeeper.util.DateUtils
+import com.github.hamatoshi.receiptkeeper.util.INITIAL_COMMIT
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -18,25 +20,37 @@ class HomeViewModel(
     private val receiptSummaryRepository = ReceiptSummaryRepository(receiptSummaryDatabaseDao)
     private val receiptContentRepository = ReceiptContentRepository(receiptContentDatabaseDao)
 
-    private val _receipts = MutableLiveData<List<ReceiptSummary>>()
-    val receipts : LiveData<List<ReceiptSummary>>
-        get() = _receipts
+    private val currentTimeMills = System.currentTimeMillis()
+    private val fromDateLong = DateUtils.millsOfFrom(currentTimeMills)
+    private val toDateLong = DateUtils.millsOfTo(currentTimeMills)
 
-    init {
-        val currentReceipts = ReceiptStore.allReceipts
-        currentReceipts[0].contents = ReceiptContentsStore.receiptContentsSevenEleven
-        currentReceipts[1].contents = ReceiptContentsStore.receiptContentsOlympic
-        currentReceipts[2].contents = ReceiptContentsStore.receiptContentsTokyuStore
-        currentReceipts[3].contents = ReceiptContentsStore.receiptContentsFamilyMart
-        _receipts.value = currentReceipts
-    }
+    val receipts = receiptSummaryRepository.getReceiptBetweenDate(fromDateLong, toDateLong)
+
 
     // For navigation to InputFragment
-    private val _navigateToInput = MutableLiveData<Boolean>()
-    val navigateToInput: LiveData<Boolean>
+    private val _navigateToInput = MutableLiveData<Long>()
+    val navigateToInput: LiveData<Long>
         get() = _navigateToInput
-    fun onFabClicked() { _navigateToInput.value = true }
-    fun doneNavigating() { _navigateToInput.value = false }
+
+    init {
+//        val currentReceipts = ReceiptStore.allReceipts
+//        currentReceipts[0].contents = ReceiptContentsStore.receiptContentsSevenEleven
+//        currentReceipts[1].contents = ReceiptContentsStore.receiptContentsOlympic
+//        currentReceipts[2].contents = ReceiptContentsStore.receiptContentsTokyuStore
+//        currentReceipts[3].contents = ReceiptContentsStore.receiptContentsFamilyMart
+//        _receipts.value = currentReceipts
+    }
+
+
+    fun doneNavigating() { _navigateToInput.value = null }
+    fun onFabClicked() { _navigateToInput.value = INITIAL_COMMIT }
+    fun onEditClicked(receiptId: Long) { _navigateToInput.value = receiptId }
+
+
+    override fun onCleared() {
+        super.onCleared()
+        viewModelJob.cancel()
+    }
 
     class Factory(
         private val receiptSummaryDatabaseDao: ReceiptSummaryDatabaseDao,

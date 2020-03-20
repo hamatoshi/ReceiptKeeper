@@ -8,6 +8,7 @@ import java.util.*
 
 const val DATE_PATTERN = "EEE, MMM d, yyyy"
 const val TIME_PATTERN = "HH:mm"
+const val INITIAL_COMMIT = -1L
 
 fun ListView.setListViewHeightBasedOnChildren() {
     adapter?.let {

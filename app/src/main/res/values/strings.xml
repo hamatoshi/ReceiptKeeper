@@ -19,4 +19,5 @@
     <string name="icon_for_shop">Icon for shop</string>
     <string name="icon_for_tax_operation">Icon for tax operation</string>
     <string name="icon_for_date">Icon for date</string>
+    <string name="text_button_edit">edit</string>
 </resources>

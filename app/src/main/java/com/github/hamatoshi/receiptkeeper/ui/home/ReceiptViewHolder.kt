@@ -10,16 +10,18 @@ import com.github.hamatoshi.receiptkeeper.databinding.ListItemReceiptBinding
 class ReceiptViewHolder private constructor(private val binding: ListItemReceiptBinding):
     RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(item: ReceiptSummary) {
+    fun bind(item: ReceiptSummary, clickListener: ReceiptEditClickListener) {
         val adapter = ReceiptContentAdapter()
         adapter.submitList(item.contents)
         binding.apply {
             receiptSummary = item
             listReceiptContents.adapter = adapter
+            editClickListener = clickListener
             //listReceiptContents.setListViewHeightBasedOnChildren()
-            listReceiptContents.visibility = if(item.isExpanded) { View.VISIBLE } else { View.GONE }
+            containerReceiptContents.visibility = if(item.isExpanded) { View.VISIBLE } else { View.GONE }
             executePendingBindings()
         }
+
     }
     companion object {
         fun from(parent: ViewGroup): ReceiptViewHolder {

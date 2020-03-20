@@ -7,6 +7,9 @@
         <variable
             name="receiptSummary"
             type="com.github.hamatoshi.receiptkeeper.data.ReceiptSummary" />
+        <variable
+            name="editClickListener"
+            type="com.github.hamatoshi.receiptkeeper.ui.home.ReceiptEditClickListener" />
     </data>
 
     <com.google.android.material.card.MaterialCardView
@@ -48,40 +51,34 @@
                 app:price="@{receiptSummary.totalPrice()}"
                 tools:text="2000" />
 
-            <!-- total tax price -->
-<!--            <com.google.android.material.textview.MaterialTextView-->
-<!--                android:id="@+id/text_total_tax_price"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginStart="@dimen/spacing_normal"-->
-<!--                android:layout_marginEnd="@dimen/spacing_normal"-->
-<!--                app:layout_constraintStart_toEndOf="@+id/text_total_price"-->
-<!--                app:layout_constraintTop_toTopOf="@+id/text_shop"-->
-<!--                app:price="@{receiptSummary.totalTaxPrice()}"-->
-<!--                tools:text="500" />-->
-
-            <!-- tax operation -->
-<!--            <com.google.android.material.textview.MaterialTextView-->
-<!--                android:id="@+id/text_tax_operation"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginStart="@dimen/spacing_normal"-->
-<!--                android:layout_marginEnd="@dimen/spacing_normal"-->
-<!--                app:layout_constraintStart_toEndOf="@+id/text_total_tax_price"-->
-<!--                app:layout_constraintTop_toTopOf="@+id/text_shop"-->
-<!--                app:taxOperation="@{receiptSummary}"-->
-<!--                tools:text="taxed on each" />-->
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/list_receipt_contents"
-                android:layout_width="0dp"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/container_receipt_contents"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_normal"
-                android:layout_marginEnd="@dimen/spacing_normal"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintStart_toStartOf="@id/guideline"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/text_shop" />
+                app:layout_constraintTop_toBottomOf="@id/text_shop">
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/button_edit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_tiny"
+                    android:layout_marginEnd="@dimen/spacing_normal"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:onClick="@{() -> editClickListener.onClick(receiptSummary)}"
+                    android:text="@string/text_button_edit"/>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/list_receipt_contents"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_normal"
+                    android:layout_marginStart="64dp"
+                    android:layout_marginEnd="@dimen/spacing_normal"
+                    app:layout_constraintTop_toBottomOf="@id/button_edit"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guideline"

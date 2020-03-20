@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MotionEvent
+import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.NavController
@@ -46,28 +47,45 @@ class MainActivity : AppCompatActivity() {
             bottomAppbar.navigationIcon = getDrawable(R.drawable.ic_menu_white_24dp)
             mainFab.setImageDrawable(getDrawable(R.drawable.ic_add_black_24dp))
         }
+        showBottomAppbar()
     }
 
     private fun setBottomAppBarForInput() {
         binding.run {
             bottomAppbar.fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_END
-            bottomAppbar.navigationIcon = getDrawable(R.drawable.ic_arrow_back_white_24dp)
             mainFab.setImageDrawable(getDrawable(R.drawable.ic_save_black_24dp))
         }
     }
 
     private fun setBottomAppBarForOthers() {
-        binding.run {
-            mainFab.hide()
-        }
+        hideMainFab()
     }
 
     fun setUpMainFab(clickListener: () -> Unit) {
         binding.mainFab.apply {
-            setOnClickListener {
-                clickListener()
-            }
+            setOnClickListener { clickListener() }
         }
+    }
+
+    fun hideMainFab() { binding.mainFab.hide() }
+    fun showMainFab() { binding.mainFab.show() }
+
+    fun hideBottomAppBar() {
+        val bottomAppBarAnimation = binding.bottomAppbar.animate()
+        bottomAppBarAnimation.translationY(binding.bottomAppbar.height.toFloat())
+        bottomAppBarAnimation.duration = 400L
+        bottomAppBarAnimation.withEndAction {
+            binding.bottomAppbar.visibility = View.GONE
+        }.start()
+    }
+
+    private fun showBottomAppbar() {
+        val bottomAppBarAnimation = binding.bottomAppbar.animate()
+        bottomAppBarAnimation.translationY(0F)
+        bottomAppBarAnimation.duration = 400L
+        bottomAppBarAnimation.withStartAction {
+            binding.bottomAppbar.visibility = View.VISIBLE
+        }.start()
     }
 
     override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {

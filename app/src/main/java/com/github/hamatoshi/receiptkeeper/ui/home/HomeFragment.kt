@@ -31,7 +31,9 @@ class HomeFragment : Fragment() {
         val viewModelFactory = HomeViewModel.Factory(receiptSummaryDatabaseDao, receiptContentDatabaseDao)
         val homeViewModel = ViewModelProvider(this, viewModelFactory).get(HomeViewModel::class.java)
 
-        val adapter = ReceiptAdapter()
+        val adapter = ReceiptAdapter(
+            ReceiptEditClickListener { receiptId ->  homeViewModel.onEditClicked(receiptId) }
+        )
         val layoutManager = LinearLayoutManager(activity)
         val dividerItemDecoration = DividerItemDecoration(binding.listReceipt.context, layoutManager.orientation)
 
@@ -54,8 +56,8 @@ class HomeFragment : Fragment() {
         })
 
         homeViewModel.navigateToInput.observe(viewLifecycleOwner, Observer {
-            if (it == true) {
-                this.findNavController().navigate(HomeFragmentDirections.actionHomeToInput())
+            it?.let {
+                this.findNavController().navigate(HomeFragmentDirections.actionHomeToInput(it))
                 homeViewModel.doneNavigating()
             }
         })

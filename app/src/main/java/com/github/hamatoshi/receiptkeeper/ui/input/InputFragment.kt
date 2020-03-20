@@ -10,8 +10,10 @@ import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.github.hamatoshi.receiptkeeper.data.ReceiptDatabase
 import com.github.hamatoshi.receiptkeeper.databinding.FragmentInputBinding
 import com.github.hamatoshi.receiptkeeper.ui.MainActivity
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 
 class InputFragment : Fragment() {
 
@@ -23,7 +25,12 @@ class InputFragment : Fragment() {
     ): View? {
         binding = FragmentInputBinding.inflate(inflater, container, false)
 
-        val viewModelFactory = InputViewModel.Factory()
+        val application = requireNotNull(this.activity).application
+        val receiptDatabase = ReceiptDatabase.getInstance(application)
+        val receiptSummaryDatabaseDao = receiptDatabase.receiptSummaryDatabaseDao
+        val receiptContentDatabaseDao = receiptDatabase.receiptContentDatabaseDao
+        val arguments = InputFragmentArgs.fromBundle(requireArguments())
+        val viewModelFactory = InputViewModel.Factory(arguments.receiptId, receiptSummaryDatabaseDao, receiptContentDatabaseDao)
         val inputViewModel = ViewModelProvider(this, viewModelFactory).get(InputViewModel::class.java)
 
         binding.run {
@@ -41,9 +48,27 @@ class InputFragment : Fragment() {
         binding.inputDate.setOnClickListener { showDatePickerDialog(it as TextView) }
         binding.inputTime.setOnClickListener { showTimePickerDialog(it as TextView) }
 
-        // set fab action
+        // set fab action and hide bottom app bar
         val mainActivity = (requireActivity() as MainActivity)
         mainActivity.setUpMainFab { inputViewModel.onFabClicked() }
+        mainActivity.hideBottomAppBar()
+
+        val bottomSheet = binding.inputField
+        val behavior = BottomSheetBehavior.from(bottomSheet.root)
+        behavior.state = BottomSheetBehavior.STATE_HIDDEN
+        binding.textAddItem.setOnClickListener {
+            if (behavior.state != BottomSheetBehavior.STATE_EXPANDED) {
+                behavior.state = BottomSheetBehavior.STATE_EXPANDED
+                mainActivity.hideMainFab()
+            } else {
+                behavior.state = BottomSheetBehavior.STATE_HIDDEN
+                mainActivity.showMainFab()
+            }
+        }
+        bottomSheet.buttonCancel.setOnClickListener {
+            behavior.state = BottomSheetBehavior.STATE_HIDDEN
+            mainActivity.showMainFab()
+        }
 
         return binding.root
     }
@@ -65,4 +90,5 @@ class InputFragment : Fragment() {
     private fun showDatePickerDialog(textView: TextView) {
         DatePickerFragment(textView).show(parentFragmentManager, "datePicker")
     }
+
 }
