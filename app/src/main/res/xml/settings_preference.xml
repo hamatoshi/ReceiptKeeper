@@ -7,4 +7,7 @@
         app:entries="@array/items_theme"
         app:entryValues="@array/items_theme_value"
         app:useSimpleSummaryProvider="true"/>
+    <Preference
+        app:key="deleteAll"
+        app:title="Delete all data"/>
 </PreferenceScreen>
