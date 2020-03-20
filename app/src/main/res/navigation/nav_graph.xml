@@ -43,4 +43,12 @@
             android:defaultValue="-1L" />
     </fragment>
 
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.github.hamatoshi.receiptkeeper.ui.settings.SettingsFragment"
+        android:label="SettingsFragment" />
+    <action
+        android:id="@+id/open_settings"
+        app:destination="@id/settingsFragment" />
+
 </navigation>

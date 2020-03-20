@@ -1,6 +1,7 @@
 package com.github.hamatoshi.receiptkeeper.util
 
 import android.widget.ListView
+import androidx.appcompat.app.AppCompatDelegate
 import com.github.hamatoshi.receiptkeeper.data.ReceiptContent
 import com.github.hamatoshi.receiptkeeper.data.TaxType
 import java.text.SimpleDateFormat
@@ -97,5 +98,16 @@ object DateUtils {
         val date = stringToDate(inputText, inputPattern) ?: return "dd"
         return SimpleDateFormat(outputPattern, Locale.US).format(date)
     }
+}
 
+object SettingsUtils {
+   fun applyTheme(theme: Int?) {
+        val mode = when (theme) {
+            1 -> AppCompatDelegate.MODE_NIGHT_NO
+            2 -> AppCompatDelegate.MODE_NIGHT_YES
+            3 -> AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
+            else -> AppCompatDelegate.getDefaultNightMode()
+        }
+        AppCompatDelegate.setDefaultNightMode(mode)
+    }
 }

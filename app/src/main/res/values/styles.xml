@@ -13,6 +13,8 @@
 
         <item name="fontFamily">@font/roboto</item>
         <item name="android:textColor">@color/secondaryTextColor</item>
+        <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
+
     </style>
 
     <style name="divider">

@@ -9,8 +9,10 @@ import android.view.inputmethod.InputMethodManager
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
+import androidx.preference.PreferenceManager
 import com.github.hamatoshi.receiptkeeper.databinding.ActivityMainBinding
 import com.github.hamatoshi.receiptkeeper.R
+import com.github.hamatoshi.receiptkeeper.util.SettingsUtils
 import com.google.android.material.bottomappbar.BottomAppBar
 
 class MainActivity : AppCompatActivity() {
@@ -24,6 +26,8 @@ class MainActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         navController = findNavController(R.id.nav_host_fragment)
 
+        initializeTheme()
+
         setSupportActionBar(binding.bottomAppbar)
 
         setUpNavController()
@@ -36,14 +40,18 @@ class MainActivity : AppCompatActivity() {
                 controller.graph.startDestination -> setBottomAppBarForHome()
                 R.id.homeFragment -> setBottomAppBarForHome()
                 R.id.inputFragment -> setBottomAppBarForInput()
-                else -> setBottomAppBarForOthers()
+                else -> { setBottomAppBarForOthers() }
             }
         }
     }
 
     private fun setBottomAppBarForHome() {
         binding.run {
-            bottomAppbar.fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_CENTER
+            if (bottomAppbar.fabAlignmentMode != BottomAppBar.FAB_ALIGNMENT_MODE_CENTER) {
+                bottomAppbar.fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_CENTER
+            } else {
+                showMainFab()
+            }
             bottomAppbar.navigationIcon = getDrawable(R.drawable.ic_menu_white_24dp)
             mainFab.setImageDrawable(getDrawable(R.drawable.ic_add_black_24dp))
         }
@@ -95,5 +103,12 @@ class MainActivity : AppCompatActivity() {
         }
         return super.dispatchTouchEvent(ev)
     }
+
+    private fun initializeTheme() {
+        val sharedPref = PreferenceManager.getDefaultSharedPreferences(this)
+        val theme = sharedPref.getString("theme", "")?.toInt()
+        SettingsUtils.applyTheme(theme)
+    }
+
 
 }
